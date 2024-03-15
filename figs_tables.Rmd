@@ -18,6 +18,7 @@ library(survival)
 library(cowplot)
 library(cmprsk)
 library(pammtools)
+library(corrplot)
 
 setwd("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results")
 
@@ -692,7 +693,7 @@ for (i in 1:ncol(plotdat)){
 }
 
 pdf(file = "~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/tie_plot.pdf", width = 5, height = 5)
-corrplot(testmatrix, is.corr = FALSE, method = 'color', addgrid.col = 'white', addCoef.col = 'grey50', number.digits = 1, col = COL1('Blues', 7), cl.pos = 'n', tl.col = 'black', type = 'lower', col.lim = c(0, 17))
+corrplot(testmatrix, is.corr = FALSE, method = 'color', addgrid.col = 'white', addCoef.col = 'grey50', number.digits = 1, col = COL1('Blues', 7), cl.pos = 'n', tl.col = 'black', type = 'lower', col.lim = c(0, 100))
 dev.off()
 ```
 
