@@ -160,7 +160,7 @@ truths <- rbind(truths, true_dat)
 kappa_r <- 2
 kappa_a <- 0.5
 censor_bound <- 4.5
-eval_times <- c(0.5, 1)
+eval_times <- c(1, 2)
 times <- seq(0.01, 10, by = 0.01)
 
 source("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/data_gen.R")
@@ -183,7 +183,7 @@ truths <- rbind(truths, true_dat)
 kappa_r <- 0.5
 kappa_a <- 0.5
 censor_bound <- 0.2
-eval_times <- c(0.01, 0.02)
+eval_times <- c(0.03, 0.06)
 times <- seq(0.0001, 1, by = 0.0001)
 
 source("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/data_gen.R")
@@ -209,6 +209,7 @@ ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/sim_
 ```
 
 ## Point estimate figures
+
 ```{r point_ests, echo = FALSE, fig.align='center', fig.height = 4, fig.width = 6, cache = TRUE}
 bigdat <- finaldat
 
@@ -276,12 +277,18 @@ int_plot$Method2 <- case_when(
 int_plot$pretty_n <- paste0("n = ", int_plot$n)
 int_plot$pretty_n <- factor(int_plot$pretty_n, levels = c("n = 25", "n = 100", "n = 500"), ordered = TRUE)
 
-width_plot_a <- ggplot(data = filter(int_plot, setting=="A")) + geom_boxplot(aes(x = factor(Time), y = width, fill = Method2), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank()) + xlab("Time") + ylab("Interval Width")
-
+width_plot_a <- ggplot(data = filter(int_plot, setting=="A", Time == 1)) + geom_boxplot(aes(x = Method2, y = width), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank(), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + xlab("") + ylab("Interval Width")
 
 width_plot_a
 
-ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_a.pdf", width_plot_a, width = 8, height = 6)
+ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_a_time1.pdf", width_plot_a, width = 8, height = 6)
+
+width_plot_a <- ggplot(data = filter(int_plot, setting=="A", Time == 2)) + geom_boxplot(aes(x = Method2, y = width), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank(), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + xlab("") + ylab("Interval Width")
+
+width_plot_a
+
+ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_a_time2.pdf", width_plot_a, width = 8, height = 6)
+
 
 width_plot_b <- ggplot(data = filter(int_plot, setting=="B")) + geom_boxplot(aes(x = factor(Time), y = width, fill = Method2), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank()) + xlab("Time") + ylab("Interval Width")
 
@@ -307,11 +314,17 @@ width_plot_e
 
 ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_e.pdf", width_plot_e, width = 8, height = 6)
 
-width_plot_f <- ggplot(data = filter(int_plot, setting=="F")) + geom_boxplot(aes(x = factor(Time), y = width, fill = Method2), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank()) + xlab("Time") + ylab("Interval Width")
+width_plot_f <- ggplot(data = filter(int_plot, setting=="F", Time==1)) + geom_boxplot(aes(x = Method2, y = width), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank(), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + xlab(" ") + ylab("Interval Width")
 
 width_plot_f
 
-ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_f.pdf", width_plot_f, width = 8, height = 6)
+ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_f_time1.pdf", width_plot_f, width = 8, height = 6)
+
+width_plot_f <- ggplot(data = filter(int_plot, setting=="F", Time==2)) + geom_boxplot(aes(x = Method2, y = width), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank(), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + xlab(" ") + ylab("Interval Width")
+
+width_plot_f
+
+ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_f_time2.pdf", width_plot_f, width = 8, height = 6)
 
 width_plot_g <- ggplot(data = filter(int_plot, setting=="G")) + geom_boxplot(aes(x = factor(Time), y = width, fill = Method2), alpha = 0.7, outlier.size = 0.2) + facet_wrap(~pretty_n, scales = "free") + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank()) + xlab("Time") + ylab("Interval Width")
 
@@ -343,13 +356,13 @@ pw_cover_e <- filter(int_plot, setting=="E") %>% group_by(Method2, Time, n) %>% 
 
 kable(pw_cover_e, caption = "Confidence Interval Coverage, Scenario E", col.names = c("Method", "Time = 0.1", "Time = 0.5", "Time = 0.1", "Time = 0.5", "Time = 0.1", "Time = 0.5")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
 
-pw_cover_f <- filter(int_plot, setting=="F") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `0.5_25`, `1_25`, `0.5_100`, `1_100`, `0.5_500`, `1_500`)
+pw_cover_f <- filter(int_plot, setting=="F") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `1_25`, `2_25`, `1_100`, `2_100`, `1_500`, `2_500`)
 
-kable(pw_cover_f, caption = "Confidence Interval Coverage, Scenario F", col.names = c("Method", "Time = 0.5", "Time = 1", "Time = 0.5", "Time = 1", "Time = 0.5", "Time = 1")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
+kable(pw_cover_f, caption = "Confidence Interval Coverage, Scenario F", col.names = c("Method", "Time = 1", "Time = 2", "Time = 1", "Time = 2", "Time = 1", "Time = 2")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
 
-pw_cover_g <- filter(int_plot, setting=="G") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `0.01_25`, `0.02_25`, `0.01_100`, `0.02_100`, `0.01_500`, `0.02_500`)
+pw_cover_g <- filter(int_plot, setting=="G") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `0.03_25`, `0.06_25`, `0.03_100`, `0.06_100`, `0.03_500`, `0.06_500`)
 
-kable(pw_cover_g, caption = "Confidence Interval Coverage, Scenario G", col.names = c("Method", "Time = 0.01", "Time = 0.02", "Time = 0.01", "Time = 0.02", "Time = 0.01", "Time = 0.02")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
+kable(pw_cover_g, caption = "Confidence Interval Coverage, Scenario G", col.names = c("Method", "Time = 0.03", "Time = 0.06", "Time = 0.03", "Time = 0.06", "Time = 0.03", "Time = 0.06")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
 
 ```
 
@@ -434,13 +447,13 @@ pw_cover_e <- filter(int_plot2, setting=="E") %>% group_by(Method2, Time, n) %>%
 
 kable(pw_cover_e, caption = "Confidence Interval Coverage, Scenario E", col.names = c("Method", "Time = 0.1", "Time = 0.5", "Time = 0.1", "Time = 0.5", "Time = 0.1", "Time = 0.5")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
 
-pw_cover_f <- filter(int_plot2, setting=="F") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `0.5_25`, `1_25`, `0.5_100`, `1_100`, `0.5_500`, `1_500`)
+pw_cover_f <- filter(int_plot2, setting=="F") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `1_25`, `2_25`, `1_100`, `2_100`, `1_500`, `2_500`)
 
-kable(pw_cover_f, caption = "Confidence Interval Coverage, Scenario F", col.names = c("Method", "Time = 0.5", "Time = 1", "Time = 0.5", "Time = 1", "Time = 0.5", "Time = 1")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
+kable(pw_cover_f, caption = "Confidence Interval Coverage, Scenario F", col.names = c("Method", "Time = 1", "Time = 2", "Time = 1", "Time = 2", "Time = 1", "Time = 2")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
 
-pw_cover_g <- filter(int_plot2, setting=="G") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `0.01_25`, `0.02_25`, `0.01_100`, `0.02_100`, `0.01_500`, `0.02_500`)
+pw_cover_g <- filter(int_plot2, setting=="G") %>% group_by(Method2, Time, n) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, n), values_from = bias) %>% dplyr::select(Method2, `0.03_25`, `0.06_25`, `0.03_100`, `0.06_100`, `0.03_500`, `0.06_500`)
 
-kable(pw_cover_g, caption = "Confidence Interval Coverage, Scenario G", col.names = c("Method", "Time = 0.01", "Time = 0.02", "Time = 0.01", "Time = 0.02", "Time = 0.01", "Time = 0.02")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
+kable(pw_cover_g, caption = "Confidence Interval Coverage, Scenario G", col.names = c("Method", "Time = 0.03", "Time = 0.06", "Time = 0.03", "Time = 0.06", "Time = 0.03", "Time = 0.06")) %>% add_header_above(c(" ", "n = 25" = 2, "n = 100" = 2, "n = 500" = 2)) 
 
 ```
 
@@ -495,73 +508,73 @@ ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/impr
 ```{r imp_recs2, echo = FALSE, fig.align='center', fig.height = 4, fig.width = 6}
 bigdat <- filter(bigdat_store, n==25, censoring=="high")
 
-pw_bias <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_bias <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_abs_bias <- filter(bigdat,!is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(abs_bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_abs_bias <- filter(bigdat,!is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(abs_bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_efficiency <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(sd(Incidence), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_efficiency <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(sd(Incidence), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_cover <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_cover <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_width <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(width, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_width <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(width, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-kable(pw_bias, caption = "Bias, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_bias, caption = "Bias, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_abs_bias, caption = "Absolute Bias, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_abs_bias, caption = "Absolute Bias, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_efficiency, caption = "Efficiency, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_efficiency, caption = "Efficiency, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_cover, caption = "Confidence Interval Coverage, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_cover, caption = "Confidence Interval Coverage, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_width, caption = "Confidence Interval Width, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_width, caption = "Confidence Interval Width, High Censoring, n = 25", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 ```
 
 ```{r imp_recs3, echo = FALSE, fig.align='center', fig.height = 4, fig.width = 6}
 bigdat <- filter(bigdat_store, n==100, censoring=="high")
 
-pw_bias <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_bias <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_abs_bias <- filter(bigdat,!is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(abs_bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_abs_bias <- filter(bigdat,!is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(abs_bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_efficiency <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(sd(Incidence), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_efficiency <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(sd(Incidence), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_cover <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_cover <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_width <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(width, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_width <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(width, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-kable(pw_bias, caption = "Bias, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_bias, caption = "Bias, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_abs_bias, caption = "Absolute Bias, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_abs_bias, caption = "Absolute Bias, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_efficiency, caption = "Efficiency, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_efficiency, caption = "Efficiency, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_cover, caption = "Confidence Interval Coverage, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_cover, caption = "Confidence Interval Coverage, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_width, caption = "Confidence Interval Width, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_width, caption = "Confidence Interval Width, High Censoring, n = 100", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 ```
 
 ```{r imp_recs4, echo = FALSE, fig.align='center', fig.height = 4, fig.width = 6}
 bigdat <- filter(bigdat_store, n==500, censoring=="high")
 
-pw_bias <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_bias <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_abs_bias <- filter(bigdat,!is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(abs_bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_abs_bias <- filter(bigdat,!is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(abs_bias), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_efficiency <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(sd(Incidence), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_efficiency <- filter(bigdat, !is.na(m), Method != "KMI_lott" & Method != "RSI_lott", Method != "KMI_bayes", Method != "RSI_bayes", m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(sd(Incidence), digits = 3)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_cover <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_cover <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(cover, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-pw_width <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(width, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.01_10`, `0.01_50`, `0.01_150`, `0.02_10`, `0.02_50`, `0.02_150`)
+pw_width <- filter(bigdat, !is.na(m), m != "1", m != "FCI") %>% group_by(Method, Time, m) %>% summarize(bias = round(mean(width, na.rm = TRUE), digits = 2)) %>% pivot_wider(names_from = c(Time, m), values_from = bias) %>% dplyr::select(Method, `0.03_10`, `0.03_50`, `0.03_150`, `0.06_10`, `0.06_50`, `0.06_150`)
 
-kable(pw_bias, caption = "Bias, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_bias, caption = "Bias, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_abs_bias, caption = "Absolute Bias, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_abs_bias, caption = "Absolute Bias, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_efficiency, caption = "Efficiency, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_efficiency, caption = "Efficiency, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_cover, caption = "Confidence Interval Coverage, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_cover, caption = "Confidence Interval Coverage, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 
-kable(pw_width, caption = "Confidence Interval Width, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.01" = 3, "Time = 0.02" = 3)) 
+kable(pw_width, caption = "Confidence Interval Width, High Censoring, n = 500", col.names = c("Method", "m = 10", "m = 50", "m = 150", "m = 10", "m = 50", "m = 150")) %>% add_header_above(c(" ", "Time = 0.03" = 3, "Time = 0.06" = 3)) 
 ```
 
 ```{r imp_recs5, echo = FALSE, fig.align='center', fig.height = 4, fig.width = 6}
@@ -637,7 +650,7 @@ kable(pw_width, caption = "Confidence Interval Width, Low Censoring, n = 500", c
 ```
 
 ```{r imp_recs8, echo = FALSE, fig.align='center', fig.height = 8, fig.width = 6}
-timing_dat <- filter(bigdat_store, Method == "KMI" | Method == "RSI" | Method == "RGI", Time == 1 | Time == 0.01, m != "FCI", m != "1", time < 40) %>% dplyr::select(time, Method, n, actual_m, censoring)
+timing_dat <- filter(bigdat_store, Method == "KMI" | Method == "RSI" | Method == "RGI", Time == 1 | Time == 0.03, m != "FCI", m != "1", time < 40) %>% dplyr::select(time, Method, n, actual_m, censoring)
 
 timing_dat$pretty_n <- paste0("n = ", timing_dat$n)
 timing_dat$pretty_n <- factor(timing_dat$pretty_n, levels = c("n = 25", "n = 100", "n = 500"), ordered = TRUE)
@@ -658,10 +671,12 @@ bigdat <- finaldat
 
 rm(list = c("finaldat"))
 
-point_est_plot <- filter(bigdat, Method=="KMI" | Method=="RSI" | Method=="RGI" | Method=="AalJo_cmp" | Method=="RG_num" | Method=="RGI_correct" | Method=="KM_num")
-point_est_plot$Method[point_est_plot$Method=="AalJo_cmp"] <- "AalJo"
+point_est_plot2 <- filter(bigdat, Time==8 & (Method=="KMI" | Method=="RSI" | Method=="RGI" | Method=="AalJo_cmp" | Method=="RG_num" | Method=="RGI_correct" | Method=="KM_num"))
 
-point_plot <- ggplot(data = point_est_plot) + geom_boxplot(aes(x = factor(Time), y = Incidence, fill = Method), alpha = 0.7) + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12)) + xlab("Time") 
+point_est_plot2$Method[point_est_plot2$Method=="AalJo_cmp"] <- "AalJo"
+mymed <- median(point_est_plot2$Incidence[point_est_plot2$Method=="AalJo"])
+
+point_plot <- ggplot(data = point_est_plot2) + geom_boxplot(aes(x = factor(Method), y = Incidence), alpha = 0.7) + theme_bw() + theme(text=element_text(size=12)) + xlab("Method") + geom_hline(yintercept = mymed, linetype = "dashed", color = "red")
 
 point_plot
 
@@ -698,13 +713,94 @@ dev.off()
 ```
 
 ```{r intervalwidths, echo = FALSE, fig.align='center', fig.height = 4, fig.width = 6, cache = TRUE}
-int_plot <- bigdat
-int_plot$width <- int_plot$Upper-int_plot$Lower
+int_plot2 <- bigdat
+int_plot2$width <- int_plot2$Upper-int_plot2$Lower
 
-width_plot_a <- ggplot(data = int_plot) + geom_boxplot(aes(x = factor(Time), y = width, fill = Method), alpha = 0.7, outlier.size = 0.2) + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank()) + xlab("Time") + ylab("Interval Width")
+width_plot_a <- ggplot(data = int_plot2) + geom_boxplot(aes(x = factor(Time), y = width, fill = Method), alpha = 0.7, outlier.size = 0.2) + theme_bw() + theme(legend.position = "bottom", text=element_text(size=12), legend.title=element_blank()) + xlab("Time") + ylab("Interval Width")
 
 width_plot_a
 
 ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/width_ties.pdf", width_plot_a, width = 8, height = 8)
 ```
 
+## Monte Carlo error quantification
+
+We generate bootstrap estimates of the Monte Carlo error:
+
+```{r}
+point_est_plot <- point_est_plot %>%
+  mutate(timepoint = case_when(
+    Time==0.1 | Time==0.03 ~ "earlier timepoint",
+    Time==4 | Time==0.06 ~ "later timepoint",
+    Time==1 ~ "earlier timepoint",
+    Time==2 & (setting=="A" | setting=="B" | setting=="F") ~ "later timepoint",
+    Time==2 & setting=="C" ~ "earlier timepoint",
+    Time==0.5 & (setting=="D" | setting=="E") ~ "later timepoint"
+  ))
+
+int_plot <- int_plot %>%
+  mutate(timepoint = case_when(
+     Time==0.1 | Time==0.03 ~ "earlier timepoint",
+    Time==4 | Time==0.06 ~ "later timepoint",
+    Time==1 ~ "earlier timepoint",
+    Time==2 & (setting=="A" | setting=="B" | setting=="F") ~ "later timepoint",
+    Time==2 & setting=="C" ~ "earlier timepoint",
+    Time==0.5 & (setting=="D" | setting=="E") ~ "later timepoint"
+  ))
+
+B <- 500
+subdat <- filter(point_est_plot, setting=="F", n==100, Method=="AalJo", Time==1)
+ests <- NULL
+ints <- NULL
+
+for (b in 1:B){
+  sel <- group_by(point_est_plot, Method, setting, n, timepoint) %>%
+    slice_sample(n = 1000, replace = TRUE) %>%
+    summarize(est_inc = mean(Incidence))
+  
+  ests <- rbind(ests, sel)
+  
+  sel <- group_by(int_plot, Method2, setting, n, timepoint) %>%
+    slice_sample(n = 1000, replace = TRUE) %>%
+    summarize(est_width = mean(width),
+              est_cover = mean(cover))
+  
+  ints <- rbind(ints, sel)
+}
+
+mce_pointest <- group_by(ests, Method, setting, n, timepoint) %>%
+  summarize(mce_bias = sd(est_inc)) 
+
+true_inc <- group_by(point_est_plot, Method, setting, n, timepoint) %>%
+  select(Method, setting, n, timepoint, truth) %>%
+  distinct()
+
+mce_width <- group_by(ints, Method2, setting, n, timepoint) %>%
+  summarize(mce_width = sd(est_width),
+            mce_cover = sd(est_cover)) 
+
+true_inc2 <- group_by(int_plot, Method2, setting, n, timepoint) %>%
+  select(Method, setting, n, timepoint, truth) %>%
+  distinct()
+
+mce_pointest <- left_join(mce_pointest, true_inc, by = c("Method", "setting", "n", "timepoint"))
+mce_width <- left_join(mce_width, true_inc2, by = c("Method2", "setting", "n", "timepoint"))
+
+myplot <- ggplot(data = mce_pointest) + geom_point(aes(x = Method, y = mce_bias/truth, color = setting, shape = factor(n))) + facet_wrap(~timepoint) + theme_bw() + xlab("Method") + ylab("Ratio of Monte Carlo Error to True Cumulative Incidence") + guides(color = guide_legend(title ="Setting"), shape = guide_legend(title = "Sample Size"))
+
+myplot 
+
+ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/mc_bias.pdf", myplot, width = 8, height = 8)
+
+myplot <- ggplot(data = mce_width) + geom_point(aes(x = Method2, y = mce_width, color = setting, shape = factor(n))) + facet_wrap(~timepoint) + theme_bw() + xlab("Method") + ylab("Monte Carlo Error for Interval Width") + guides(color = guide_legend(title = "Setting"), shape = guide_legend(title = "Sample Size")) + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+myplot 
+
+ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/mc_width.pdf", myplot, width = 8, height = 8)
+
+myplot <- ggplot(data = mce_width) + geom_point(aes(x = Method2, y = mce_cover, color = setting, shape = factor(n))) + facet_wrap(~timepoint) + theme_bw() + xlab("Method") + ylab("Monte Carlo Error for Interval Coverage") + guides(color = guide_legend(title = "Setting"), shape = guide_legend(title = "Sample Size")) + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+myplot 
+
+ggsave("~/OneDrive - RAND Corporation/UMich Research/mici/mici_sims/Results/mc_cover.pdf", myplot, width = 8, height = 8)
+```

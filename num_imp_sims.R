@@ -1,6 +1,6 @@
 library(tidyverse);
 library(survival);
-library(cmprsk);
+library(mstate);
 library(etm);
 library(mici);
 
@@ -41,7 +41,7 @@ if (c=="low"){
   times <- c(1, 2)
 } else {
   censor_bound <- 0.2
-  times <- c(0.01, 0.02)
+  times <- c(0.03, 0.06)
 }
 
 source('data_gen.R')
@@ -706,14 +706,14 @@ if (length(which(u$ftype==1))==0){
                             "Lower" = 0, 
                             "Upper" = 0)
 } else{
-  fit <- cuminc(u$ftime, u$ftype);
-  lcprog <- timepoints(fit, times = new_times);
+  fit <- Cuminc(u$ftime, u$ftype);
+  lcprog <- summary(fit, times = new_times);
   
-  
-  mycurvefits <- data.frame("Incidence" = lcprog$est[1,], "Time" = times, 
-                            "SE" = lcprog$var[1,], 
-                            "Lower" = lcprog$est[1,]^(exp(-1.96*sqrt(lcprog$var[1,])/(lcprog$est[1,]*log(lcprog$est[1,])))), 
-                            "Upper" = lcprog$est[1,]^(exp(1.96*sqrt(lcprog$var[1,])/(lcprog$est[1,]*log(lcprog$est[1,])))))
+  mycurvefits <- data.frame("Incidence" = lcprog$pstate[,2], 
+                            "Time" = times, 
+                            "SE" = lcprog$std.err[,2], 
+                            "Lower" = lcprog$lower[,2], 
+                            "Upper" = lcprog$upper[,2])
 }
 end.time <- Sys.time()
 time.taken <- difftime(end.time, start.time, units="secs")
